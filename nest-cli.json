@@ -1,0 +1,20 @@
+{
+  "collection": "@nestjs/schematics",
+  "monorepo": true,
+  "projects": {
+    "spaghetti": {
+      "type": "application",
+      "root": "apps/spaghetti",
+      "entryFile": "main",
+      "sourceRoot": "apps/spaghetti/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/spaghetti/tsconfig.spaghetti.json",
+        "deleteOutDir": true,
+        "webpack": false
+      }
+    }
+  },
+  "compilerOptions": {
+    "webpack": true
+  }
+}
