@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { BookQueries } from '@cmn/database';
-import {BooksListResultDto} from "@services-read/common/dto";
+import { BooksListResultDto } from '@services-read/common/dto';
 
 @Injectable()
 export class BookService {

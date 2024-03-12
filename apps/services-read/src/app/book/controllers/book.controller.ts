@@ -1,9 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 
+import { BooksListResultDto } from '@services-read/common/dto';
 import { SuccessResponse } from '@services-read/common/response.dto';
 
 import { BookService } from '../services/book.service';
-import {BooksListResultDto} from "@services-read/common/dto";
 
 @Controller({
   path: 'books',

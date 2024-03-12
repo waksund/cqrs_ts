@@ -33,9 +33,10 @@ export class ErrorFilter {
 
     const httpError = exception as HttpException;
     if (httpError.getStatus) {
+      const errorResponse = httpError.getResponse() as HttpException;
       response
         .status(HttpStatus.OK)
-        .json(new ErrorResponse(httpError.getStatus(), httpError.message));
+        .json(new ErrorResponse(httpError.getStatus(), errorResponse.message));
 
       return;
     }
