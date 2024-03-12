@@ -13,22 +13,24 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { config } from '../../../../common/config/config';
-import { DISTRIBUTED_CACHE, EMAIL_PROVIDER } from '../../../../common/config/constants';
+import { config } from '@cfg/config';
+import { DISTRIBUTED_CACHE, EMAIL_PROVIDER } from '@cfg/constants';
 import {
+  User,
   Wallet,
   WalletOperations,
-  User,
-} from '../../../../common/database';
-import { ConfirmCodeRequestDto } from '../common/dto/confirm-code.dto';
-import { LoginUserRequestDto } from '../common/dto/login-user.dto';
-import { RegisterUserRequestDto } from '../common/dto/register-user.dto';
+} from '@cmn/database';
 import {
-  type BaseResponse,
+  ConfirmCodeRequestDto,
+  LoginUserRequestDto,
+  RegisterUserRequestDto,
+} from '@spaghetti/common/dto';
+import { SomeEmailLibrary } from '@spaghetti/common/email-library';
+import {
+  BaseResponse,
   ErrorResponse,
   SuccessResponse,
-} from '../common/dto/response.dto';
-import { SomeEmailLibrary } from '../common/email-library';
+} from '@spaghetti/common/response.dto';
 
 @Controller({
   path: 'auth',
@@ -72,9 +74,9 @@ export class AuthController {
       }
 
       const code = randomInt(1000, 9999);
-      this.redisClient.set(user.id, code, 'EX', config.get('code.ttlSec'));
+      await this.redisClient.set(user.id, code, 'EX', config.get('code.ttlSec'));
 
-      this.someEmailLibrary.sendEmail(user.email, 'Confirmation code', `Confirmation code: ${code}`);
+      await this.someEmailLibrary.sendEmail(user.email, 'Confirmation code', `Confirmation code: ${code}`);
 
       return new SuccessResponse(code);
     } catch (e) {
@@ -100,9 +102,9 @@ export class AuthController {
       }
 
       const code = randomInt(1000, 9999);
-      this.redisClient.set(user.id, code, 'EX', config.get('code.ttlSec'));
+      await this.redisClient.set(user.id, code, 'EX', config.get('code.ttlSec'));
 
-      this.someEmailLibrary.sendEmail(user.email, 'Confirmation code', `Confirmation code: ${code}`);
+      await this.someEmailLibrary.sendEmail(user.email, 'Confirmation code', `Confirmation code: ${code}`);
 
       return new SuccessResponse(code);
     } catch (e) {
@@ -136,8 +138,8 @@ export class AuthController {
         return new ErrorResponse(400, 'bad argument: \'code\'');
       }
 
-      const userBalanceExists = await this.walletRepository.existsBy({ user });
-      if (!userBalanceExists) {
+      const userWalletExists = await this.walletRepository.existsBy({ user });
+      if (!userWalletExists) {
         const wallet = this.walletRepository.create({
           id: v4(),
           user,

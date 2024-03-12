@@ -2,16 +2,16 @@ import Redis from 'ioredis';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { config } from '../../../common/config/config';
-import { DISTRIBUTED_CACHE, EMAIL_PROVIDER } from '../../../common/config/constants';
+import { config } from '@cfg/config';
+import { DISTRIBUTED_CACHE, EMAIL_PROVIDER } from '@cfg/constants';
 import {
-  Wallet,
-  WalletOperations,
   Book,
   BookReview,
   DataBaseModule,
   User,
-} from '../../../common/database';
+  Wallet,
+  WalletOperations,
+} from '@cmn/database';
 
 import { SomeEmailLibrary } from './common/email-library';
 import { AuthController } from './controllers/auth.controller';

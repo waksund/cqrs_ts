@@ -10,15 +10,18 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Book, BookReview } from '../../../../common/database';
-import { type BooksListItemDto, type BooksListResultDto } from '../common/dto/books-list.dto';
-import { CreateBookRequestDto } from '../common/dto/create-book.dto';
-import { CreateReviewRequestDto } from '../common/dto/create-review.dto';
+import { Book, BookReview } from '@cmn/database';
 import {
-  type BaseResponse,
+  BooksListItemDto,
+  BooksListResultDto,
+  CreateBookRequestDto,
+  CreateReviewRequestDto,
+} from '@spaghetti/common/dto';
+import {
+  BaseResponse,
   ErrorResponse,
   SuccessResponse,
-} from '../common/dto/response.dto';
+} from '@spaghetti/common/response.dto';
 
 @Controller({
   path: 'books',
@@ -49,7 +52,7 @@ export class BooksController {
 
       const book: Book = this.bookRepository.create({
         id: v4(),
-        user: { id: request.userId },
+        userId: request.userId,
         title: request.title,
       });
 
@@ -83,8 +86,8 @@ export class BooksController {
 
       const review = this.bookReviewRepository.create({
         id: v4(),
-        user: { id: request.userId },
-        book: { id: request.bookId },
+        userId: request.userId,
+        bookId: request.bookId,
         estimate: request.estimate,
       });
 
@@ -99,7 +102,6 @@ export class BooksController {
   }
 
   @Get('list')
-  @HttpCode(HttpStatus.OK)
   async list(): Promise<SuccessResponse<BooksListResultDto>> {
     try {
       const books = await this.entityManager.query<BooksListItemDto[]>(`

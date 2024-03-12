@@ -19,11 +19,19 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "paths": {
+      "@cfg/*": ["./common/config/*"],
+      "@cmn/*": ["./common/*"],
+
+      "@spaghetti/*": ["./apps/spaghetti/src/*"],
+      "@services-write/*": ["./apps/services-write/src/*"],
+      "@services-read/*": ["./apps/services-read/src/*"]
+    }
   },
   "exclude": [
     "node_modules",
     "dist",
     "ormconfig.ts"
-  ],
+  ]
 }

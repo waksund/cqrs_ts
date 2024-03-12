@@ -1,13 +1,15 @@
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {config} from "../config/config";
+import {Book, BookReview, User, Wallet, WalletOperations} from "./entities";
+import {BookRepository, BookReviewRepository, UserRepository, WalletRepository} from "./repositories";
+import {BookQueries} from "@cmn/database/queries";
 
 @Global()
 @Module({
     imports: [
         TypeOrmModule.forRootAsync({
             useFactory() {
-                console.log(__dirname)
                 return {
                     type: 'postgres',
                     url: config.get('db.url'),
@@ -19,8 +21,29 @@ import {config} from "../config/config";
                 };
             },
         }),
+        TypeOrmModule.forFeature(
+            [
+                Wallet,
+                WalletOperations,
+                Book,
+                BookReview,
+                User,
+            ],
+        ),
     ],
     providers: [
+        BookRepository,
+        BookReviewRepository,
+        UserRepository,
+        WalletRepository,
+        BookQueries,
+    ],
+    exports: [
+        BookRepository,
+        BookReviewRepository,
+        UserRepository,
+        WalletRepository,
+        BookQueries,
     ]
 })
 export class DataBaseModule {}

@@ -6,8 +6,8 @@ export class Book {
     @PrimaryGeneratedColumn('uuid')
     public id: string;
 
-    @ManyToOne('User')
-    public user: User;
+    @Column('uuid')
+    userId: string;
 
     @Column('text')
     public title: string;

@@ -10,11 +10,11 @@ export class BookReview {
     @Column('decimal', { precision: 2, scale: 1 })
     estimate: number;
 
-    @ManyToOne('User')
-    public user: User;
+    @Column('uuid')
+    public userId: string;
 
-    @ManyToOne('Book')
-    public book: Book;
+    @Column('uuid')
+    public bookId: string;
 
     @CreateDateColumn()
     public createdAt: Date;

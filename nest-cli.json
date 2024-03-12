@@ -12,9 +12,28 @@
         "deleteOutDir": true,
         "webpack": false
       }
+    },
+    "services-write": {
+      "type": "application",
+      "root": "apps/services-write",
+      "entryFile": "main",
+      "sourceRoot": "apps/services-write/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/services-write/tsconfig.services-write.json",
+        "deleteOutDir": true,
+        "webpack": false
+      }
+    },
+    "services-read": {
+      "type": "application",
+      "root": "apps/services-read",
+      "entryFile": "main",
+      "sourceRoot": "apps/services-read/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/services-read/tsconfig.services-read.json",
+        "deleteOutDir": true,
+        "webpack": false
+      }
     }
-  },
-  "compilerOptions": {
-    "webpack": true
   }
 }

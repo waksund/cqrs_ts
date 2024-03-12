@@ -1,0 +1,13 @@
+export class BooksListResultDto {
+  books: BooksListItemDto[];
+}
+
+export class BooksListItemDto {
+  id: string;
+
+  title: string;
+
+  authorFullName: string;
+
+  avgReviewEstimate: string | null;
+}
