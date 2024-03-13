@@ -34,6 +34,28 @@
         "deleteOutDir": true,
         "webpack": false
       }
+    },
+    "commands-write": {
+      "type": "application",
+      "root": "apps/commands-write",
+      "entryFile": "main",
+      "sourceRoot": "apps/commands-write/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/commands-write/tsconfig.commands-write.json",
+        "deleteOutDir": true,
+        "webpack": false
+      }
+    },
+    "commands-read": {
+      "type": "application",
+      "root": "apps/commands-read",
+      "entryFile": "main",
+      "sourceRoot": "apps/commands-read/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/commands-read/tsconfig.commands-read.json",
+        "deleteOutDir": true,
+        "webpack": false
+      }
     }
   }
 }

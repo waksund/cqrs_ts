@@ -1,4 +1,4 @@
 export * from './entities';
 export * from './db.module';
 export * from './repositories';
-export * from './queries';5
+export * from './queries';

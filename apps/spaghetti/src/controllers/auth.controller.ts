@@ -20,6 +20,7 @@ import {
   Wallet,
   WalletOperations,
 } from '@cmn/database';
+import { UserStatus } from '@cmn/types';
 import {
   ConfirmCodeRequestDto,
   LoginUserRequestDto,
@@ -69,6 +70,7 @@ export class AuthController {
           id: v4(),
           email: request.email,
           fullName: request.fullName,
+          status: UserStatus.Created,
         });
         await this.userRepository.insert(user);
       }
@@ -138,8 +140,7 @@ export class AuthController {
         return new ErrorResponse(400, 'bad argument: \'code\'');
       }
 
-      const userWalletExists = await this.walletRepository.existsBy({ user });
-      if (!userWalletExists) {
+      if (user.status === UserStatus.Created) {
         const wallet = this.walletRepository.create({
           id: v4(),
           user,
@@ -149,10 +150,12 @@ export class AuthController {
           wallet,
           amount: '10',
         });
+        user.status = UserStatus.Registered;
 
         await this.dataSource.transaction(async () => {
           await this.walletRepository.insert(wallet);
           await this.walletOperationsRepository.insert(walletOperation);
+          await this.userRepository.save(user);
         });
       }
 

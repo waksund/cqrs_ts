@@ -1,16 +1,17 @@
-import {Injectable} from "@nestjs/common";
-import {EntityManager} from "typeorm";
-import {BooksListItemDto} from "../dto/books-list.dto";
+import { EntityManager } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+
+import { BooksListItemDto } from '../dto/books-list.dto';
 
 @Injectable()
 export class BookQueries {
-    constructor(
-        private readonly entityManager: EntityManager,
-    ) {
-    }
+  constructor(
+    private readonly entityManager: EntityManager,
+  ) {
+  }
 
-    list(): Promise<BooksListItemDto[]>{
-        return this.entityManager.query<BooksListItemDto[]>(`
+  list(): Promise<BooksListItemDto[]> {
+    return this.entityManager.query<BooksListItemDto[]>(`
             select
                 b.id as id,
                 b.title as title,
@@ -25,5 +26,5 @@ export class BookQueries {
             from books_reviews as books_reviews
             group by books_reviews."bookId") as r
             on r.bookId = b.id`);
-    }
+  }
 }

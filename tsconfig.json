@@ -26,7 +26,9 @@
 
       "@spaghetti/*": ["./apps/spaghetti/src/*"],
       "@services-write/*": ["./apps/services-write/src/*"],
-      "@services-read/*": ["./apps/services-read/src/*"]
+      "@services-read/*": ["./apps/services-read/src/*"],
+      "@commands-write/*": ["./apps/commands-write/src/*"],
+      "@commands-read/*": ["./apps/commands-read/src/*"]
     }
   },
   "exclude": [

@@ -8,6 +8,7 @@ import { Errors } from '@cfg/constants';
 import { CacheService } from '@cmn/cache';
 import { UserRepository, WalletRepository } from '@cmn/database';
 import { NotificationService } from '@cmn/notification';
+import { UserStatus } from '@cmn/types';
 
 @Injectable()
 export class AuthService {
@@ -27,6 +28,7 @@ export class AuthService {
         id: userId,
         email,
         fullName,
+        status: UserStatus.Created,
       });
     }
 
@@ -63,9 +65,11 @@ export class AuthService {
       throw new BadRequestException(Errors.WrongCode);
     }
 
-    const userWalletExists = await this.walletRepository.walletExists(user.id);
-    if (!userWalletExists) {
+    if (user.status === UserStatus.Created) {
       await this.walletRepository.insertWalletAndWalletOperation(user.id, '10');
+
+      user.status = UserStatus.Registered;
+      await this.userRepository.save(user);
     }
 
     return void 0;

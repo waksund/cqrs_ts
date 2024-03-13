@@ -1,20 +1,25 @@
-import {Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
-import {User} from "./user.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('books')
 export class Book {
-    @PrimaryGeneratedColumn('uuid')
-    public id: string;
+  @PrimaryGeneratedColumn('uuid')
+  public id: string;
 
-    @Column('uuid')
+  @Column('uuid')
     userId: string;
 
-    @Column('text')
-    public title: string;
+  @Column('text')
+  public title: string;
 
-    @CreateDateColumn()
-    public createdAt: Date;
+  @CreateDateColumn()
+  public createdAt: Date;
 
-    @UpdateDateColumn()
-    public updatedAt: Date;
+  @UpdateDateColumn()
+  public updatedAt: Date;
 }

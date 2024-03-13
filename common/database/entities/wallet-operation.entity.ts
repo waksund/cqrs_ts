@@ -1,20 +1,28 @@
-import {Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
-import {Wallet} from "./wallet.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+import { Wallet } from './wallet.entity';
 
 @Entity('wallet_operations')
 export class WalletOperations {
-    @PrimaryGeneratedColumn('uuid')
-    public id: string;
+  @PrimaryGeneratedColumn('uuid')
+  public id: string;
 
-    @ManyToOne('Wallet')
-    public wallet: Wallet;
+  @ManyToOne('Wallet')
+  public wallet: Wallet;
 
-    @Column('decimal', { precision: 128, scale: 64, default: '0' })
+  @Column('decimal', { precision: 128, scale: 64, default: '0' })
     amount: string;
 
-    @CreateDateColumn()
-    public createdAt: Date;
+  @CreateDateColumn()
+  public createdAt: Date;
 
-    @UpdateDateColumn()
-    public updatedAt: Date;
+  @UpdateDateColumn()
+  public updatedAt: Date;
 }
