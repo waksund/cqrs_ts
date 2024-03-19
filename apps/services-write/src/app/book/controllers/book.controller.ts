@@ -1,8 +1,6 @@
-import { v4 } from 'uuid';
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Post,
