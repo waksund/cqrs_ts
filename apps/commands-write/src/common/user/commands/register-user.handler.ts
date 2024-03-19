@@ -5,7 +5,6 @@ import {
 } from '@nestjs/cqrs';
 
 import { UserRepository } from '@cmn/database';
-import { NotificationService } from '@cmn/notification';
 import { UserStatus } from '@cmn/types';
 import { RegisterUserEvent } from '@commands-write/common/user/events/register-user.event';
 
@@ -15,7 +14,6 @@ import { RegisterUserCommand } from './register-user.command';
 export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand> {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly notificationService: NotificationService,
     private readonly eventBus: EventBus,
   ) {
   }
