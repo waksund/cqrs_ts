@@ -1,5 +1,4 @@
 import { DataSource, Repository } from 'typeorm';
-import { v4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -16,13 +15,8 @@ export class WalletRepository {
   ) {
   }
 
-  async walletExists(userId: string): Promise<boolean> {
-    return await this.walletRepository.existsBy({ user: { id: userId } });
-  }
-
   async insertWalletAndWalletOperation(userId: string, amount: string): Promise<void> {
     const wallet = this.walletRepository.create({
-      id: v4(),
       user: { id: userId },
       balance: amount,
     });
@@ -31,9 +25,9 @@ export class WalletRepository {
       amount,
     });
 
-    await this.dataSource.transaction(async () => {
-      await this.walletRepository.insert(wallet);
-      await this.walletOperationsRepository.insert(walletOperation);
+    await this.dataSource.transaction(async (transactionEntityManager) => {
+      await transactionEntityManager.save(wallet);
+      await transactionEntityManager.save(walletOperation);
     });
 
     return void 0;

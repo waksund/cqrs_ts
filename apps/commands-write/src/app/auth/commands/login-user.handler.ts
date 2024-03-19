@@ -1,13 +1,14 @@
-import { randomInt } from 'node:crypto';
-
 import { BadRequestException } from '@nestjs/common';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import {
+  CommandBus,
+  CommandHandler,
+  ICommandHandler,
+} from '@nestjs/cqrs';
 
-import { config } from '@cfg/config';
 import { Errors } from '@cfg/constants';
-import { CacheService } from '@cmn/cache';
 import { UserRepository } from '@cmn/database';
-import { NotificationService } from '@cmn/notification';
+import { GenerateConfirmationCodeCommand } from '@commands-write/common/confirmation-code';
+import { NotifyCommand } from '@commands-write/common/notification';
 
 import { LoginUserCommand } from './login-user.command';
 
@@ -15,8 +16,7 @@ import { LoginUserCommand } from './login-user.command';
 export class LoginUserHandler implements ICommandHandler<LoginUserCommand, string> {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly cacheService: CacheService,
-    private readonly notificationService: NotificationService,
+    private readonly commandBus: CommandBus,
   ) {
   }
 
@@ -26,10 +26,10 @@ export class LoginUserHandler implements ICommandHandler<LoginUserCommand, strin
       throw new BadRequestException(Errors.UserNotFound);
     }
 
-    const code = randomInt(1000, 9999);
-    await this.cacheService.set(user.id, code, config.get('code.ttlSec'));
+    const code = await this.commandBus.execute(new GenerateConfirmationCodeCommand(user.id));
 
-    await this.notificationService.sendEmail(command.email, 'Confirmation code', `Confirmation code: ${code}`);
+    await this.commandBus.execute(new NotifyCommand(user.email, 'Confirmation code', `Confirmation code: ${code}`));
+
 
     return code.toString();
   }

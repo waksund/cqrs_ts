@@ -2,7 +2,6 @@ import { randomInt } from 'node:crypto';
 
 import Redis from 'ioredis';
 import { DataSource, Repository } from 'typeorm';
-import { v4 } from 'uuid';
 import {
   Body,
   Controller,
@@ -67,12 +66,11 @@ export class AuthController {
       let user = await this.userRepository.findOneBy({ email: request.email });
       if (!user) {
         user = this.userRepository.create({
-          id: v4(),
           email: request.email,
           fullName: request.fullName,
           status: UserStatus.Created,
         });
-        await this.userRepository.insert(user);
+        await this.userRepository.save(user);
       }
 
       const code = randomInt(1000, 9999);
@@ -142,7 +140,6 @@ export class AuthController {
 
       if (user.status === UserStatus.Created) {
         const wallet = this.walletRepository.create({
-          id: v4(),
           user,
           balance: '10',
         });
@@ -152,11 +149,13 @@ export class AuthController {
         });
         user.status = UserStatus.Registered;
 
-        await this.dataSource.transaction(async () => {
-          await this.walletRepository.insert(wallet);
-          await this.walletOperationsRepository.insert(walletOperation);
-          await this.userRepository.save(user);
+        await this.dataSource.transaction(async (transactionEntityManager) => {
+          await transactionEntityManager.save(wallet);
+          await transactionEntityManager.save(walletOperation);
+          await transactionEntityManager.save(user);
         });
+
+        await this.someEmailLibrary.sendEmail(user.email, 'Registered', 'You have successfully registered');
       }
 
       return new SuccessResponse();

@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
+import { ConfirmationCodeService, UserService } from '@services-write/common/services';
+
 import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
 
@@ -10,6 +12,8 @@ import { AuthService } from './services/auth.service';
   ],
   providers: [
     AuthService,
+    UserService,
+    ConfirmationCodeService,
   ],
   controllers: [
     AuthController,

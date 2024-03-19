@@ -22,7 +22,7 @@ export class BookQueries {
             on u.id = b."userId"
             left join (select
                 books_reviews."bookId" as bookId,
-                sum(books_reviews.estimate)/count(books_reviews.id) as avgReviewEstimate
+                avg(books_reviews.estimate) as avgReviewEstimate
             from books_reviews as books_reviews
             group by books_reviews."bookId") as r
             on r.bookId = b.id`);

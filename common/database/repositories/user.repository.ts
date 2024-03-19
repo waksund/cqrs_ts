@@ -22,9 +22,19 @@ export class UserRepository {
     return void 0;
   }
 
+  async create(user: Partial<User>): Promise<User> {
+    const entity = this.userRepository.create(user);
+
+    return await this.userRepository.save(entity);
+  }
+
   async save(user: Partial<User>): Promise<void> {
     await this.userRepository.save(user);
 
     return void 0;
+  }
+
+  getById(userId: string): Promise<User | null> {
+    return this.userRepository.findOneBy({ id: userId });
   }
 }
