@@ -8,10 +8,7 @@
     "start:services-write": "nest start services-write",
     "start:services-read": "nest start services-read",
     "start:commands-read": "nest start commands-read",
-    "start:commands-write": "nest start commands-write",
-
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "lint": "eslint \"{src,apps,libs,tests,common}/**/*.ts\" --fix"
+    "start:commands-write": "nest start commands-write"
   },
   "dependencies": {
     "@golevelup/profiguration": "^0.2.1",
