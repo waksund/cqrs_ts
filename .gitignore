@@ -3,6 +3,7 @@
 /*.xml
 /*.env
 /*.env.*
+/.run
 
 # compiled output
 /node_modules
