@@ -1,5 +1,4 @@
 import { EntityManager, Repository } from 'typeorm';
-import { v4 } from 'uuid';
 import {
   Body,
   Controller,
@@ -51,7 +50,6 @@ export class BooksController {
       }
 
       const book: Book = this.bookRepository.create({
-        id: v4(),
         userId: request.userId,
         title: request.title,
       });
@@ -85,7 +83,6 @@ export class BooksController {
       }
 
       const review = this.bookReviewRepository.create({
-        id: v4(),
         userId: request.userId,
         bookId: request.bookId,
         estimate: request.estimate,
